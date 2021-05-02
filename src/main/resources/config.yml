@@ -1,0 +1,4 @@
+messages:
+  invalid-command-usage: '&cInvalid usage!'
+  no-permission: '&cNo permission!'
+  reload-command: '&bReloaded config.'

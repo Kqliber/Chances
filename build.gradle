@@ -1,0 +1,45 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+group 'me.kaliber'
+version '1.0'
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url 'https://papermc.io/repo/repository/maven-public/'
+    }
+    maven {
+        url 'https://repo.extendedclip.com/content/repositories/placeholderapi'
+    }
+}
+
+dependencies {
+    // command framework
+    implementation 'me.mattstudios.utils:matt-framework:1.4'
+
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'me.clip:placeholderapi:2.10.9'
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
+}
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+shadowJar {
+    minimize()
+    relocate 'me.mattstudios.mf', 'me.kaliber.libs'
+    archiveFileName = "ChanceCommands-${project.version}.jar"
+}
