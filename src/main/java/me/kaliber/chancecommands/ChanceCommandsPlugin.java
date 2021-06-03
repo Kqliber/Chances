@@ -25,22 +25,22 @@ public final class ChanceCommandsPlugin extends JavaPlugin
                 new MainCommand(this),
                 new ReloadCommand(this)
         );
-        try {
-            loadConfig();
-        } catch (IOException exception)
-        {
-            this.getLogger().severe("Could not create config!");
-            exception.printStackTrace();
-        }
+        loadConfig();
     }
 
-    private void loadConfig() throws IOException
+    private void loadConfig()
     {
         final File file = new File(this.getDataFolder(), "config.yml");
         if (!file.exists())
         {
             file.getParentFile().mkdirs();
-            file.createNewFile();
+            try
+            {
+                file.createNewFile();
+            } catch (final IOException exception)
+            {
+                this.getLogger().severe("Cannot create config file!" + exception);
+            }
             this.getConfig().options().copyDefaults(true);
         }
         saveConfig();
